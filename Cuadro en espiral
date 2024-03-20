@@ -1,0 +1,25 @@
+def matriz_espiral(n):
+    matriz = [[0] * n for _ in range(n)]
+    valor = 0
+
+    for capa in range((n + 1) // 2):
+        for p in range(capa, n - capa):
+            valor += 1
+            matriz[capa][p] = valor
+        for p in range(capa + 1, n - capa):
+            valor += 1
+            matriz[p][n - capa - 1] = valor
+        for p in range(capa + 1, n - capa):
+            valor += 1
+            matriz[n - capa - 1][n - p - 1] = valor
+        for p in range(capa + 1, n - capa - 1):
+            valor += 1
+            matriz[n - p - 1][capa] = valor
+
+    return matriz
+
+tamano = int(input("Tamaño del cuadro: "))
+matriz = matriz_espiral(tamano)
+
+for fila in matriz:
+    print(fila)
