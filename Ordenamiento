@@ -1,0 +1,123 @@
+# Ordenamiento Burbuja
+def bubbleSort(arr):
+    # Este algoritmo compara cada par de elementos adyacentes en el arreglo y los intercambia si están en el orden incorrecto.
+    # Este proceso se repite desde el inicio del arreglo hasta que no se necesiten más intercambios, lo que indica que el arreglo está ordenado.
+    n = len(arr)
+    for i in range(n):
+        for j in range(0, n-i-1):
+            if arr[j] > arr[j+1] :
+                arr[j], arr[j+1] = arr[j+1], arr[j]
+    return arr
+
+# Ordenamiento por Inserción
+def insertionSort(arr):
+    # Este algoritmo divide el arreglo en una parte ordenada y otra desordenada.
+    # Iterativamente toma un elemento de la parte desordenada y lo inserta en la posición correcta en la parte ordenada.
+    for i in range(1, len(arr)):
+        key = arr[i]
+        j = i-1
+        while j >= 0 and key < arr[j] :
+                arr[j + 1] = arr[j]
+                j -= 1
+        arr[j + 1] = key
+    return arr
+
+# Ordenamiento por Selección
+def selectionSort(arr):
+    # Este algoritmo divide el arreglo en una parte ordenada y otra desordenada.
+    # Iterativamente selecciona el elemento más pequeño (o más grande, dependiendo del orden de ordenamiento) de la parte desordenada y lo intercambia con el primer elemento no ordenado.
+    for i in range(len(arr)):
+        min_idx = i
+        for j in range(i+1, len(arr)):
+            if arr[min_idx] > arr[j]:
+                min_idx = j
+        arr[i], arr[min_idx] = arr[min_idx], arr[i]
+    return arr
+
+# QuickSort
+def partition(arr, low, high):
+    i = (low-1)
+    pivot = arr[high]
+    for j in range(low, high):
+        if arr[j] <= pivot:
+            i = i+1
+            arr[i], arr[j] = arr[j], arr[i]
+    arr[i+1], arr[high] = arr[high], arr[i+1]
+    return (i+1)
+
+def quickSort(arr, low, high):
+    # Este algoritmo utiliza la técnica de divide y vencerás.
+    # Selecciona un 'pivote' y divide el arreglo en dos subarreglos, uno con los elementos menores que el pivote y otro con los elementos mayores que el pivote.
+    # Luego, QuickSort se aplica recursivamente a estos dos subarreglos.
+    if len(arr) == 1:
+        return arr
+    if low < high:
+        pi = partition(arr, low, high)
+        quickSort(arr, low, pi-1)
+        quickSort(arr, pi+1, high)
+    return arr
+
+# MergeSort
+def mergeSort(arr):
+    # Este algoritmo también utiliza la técnica de divide y vencerás.
+    # Primero divide el arreglo en dos mitades, las ordena por separado y luego las fusiona.
+    # La fusión se realiza de tal manera que el arreglo resultante también está ordenado.
+    if len(arr) > 1:
+        mid = len(arr)//2
+        L = arr[:mid]
+        R = arr[mid:]
+        mergeSort(L)
+        mergeSort(R)
+        i = j = k = 0
+        while i < len(L) and j < len(R):
+            if L[i] < R[j]:
+                arr[k] = L[i]
+                i += 1
+            else:
+                arr[k] = R[j]
+                j += 1
+            k += 1
+        while i < len(L):
+            arr[k] = L[i]
+            i += 1
+            k += 1
+        while j < len(R):
+            arr[k] = R[j]
+            j += 1
+            k += 1
+    return arr
+
+# HeapSort
+def heapify(arr, n, i):
+    largest = i
+    l = 2 * i + 1
+    r = 2 * i + 2
+    if l < n and arr[i] < arr[l]:
+        largest = l
+    if r < n and arr[largest] < arr[r]:
+        largest = r
+    if largest != i:
+        arr[i], arr[largest] = arr[largest], arr[i]
+        heapify(arr, n, largest)
+
+def heapSort(arr):
+    # Este algoritmo primero construye un montículo máximo del arreglo y luego intercambia el elemento raíz (el máximo) con el último elemento del arreglo.
+    # Luego reduce el tamaño del montículo en uno y finalmente reconstruye el montículo.
+    # Este proceso se repite hasta que todos los elementos del arreglo están en su lugar.
+    n = len(arr)
+    for i in range(n//2 - 1, -1, -1):
+        heapify(arr, n, i)
+    for i in range(n-1, 0, -1):
+        arr[i], arr[0] = arr[0], arr[i]
+        heapify(arr, i, 0)
+    return arr
+
+# Lista de números a ordenar
+numeros = [64, 34, 25, 12, 22, 11, 90]
+
+print("Ordenamiento Burbuja:", bubbleSort(numeros.copy()))
+print("Ordenamiento por Inserción:", insertionSort(numeros.copy()))
+print("Ordenamiento por Selección:", selectionSort(numeros.copy()))
+print("QuickSort:", quickSort(numeros.copy(), 0, len(numeros)-1))
+print("MergeSort:", mergeSort(numeros.copy()))
+print("HeapSort:", heapSort(numeros.copy()))
